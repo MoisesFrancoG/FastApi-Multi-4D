@@ -12,3 +12,5 @@ class AlimentosSchema(BaseModel):
     grasa: int
     tamañoporcion: int
     tipomedida: str
+    imagen : Optional[str]
+    

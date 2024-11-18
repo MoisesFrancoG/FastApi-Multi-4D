@@ -22,8 +22,8 @@ class EjercicioConnection:
     def write(self, data):
         with self.conn.cursor() as cur:
             cur.execute("""
-                INSERT INTO mydb.ejercicios(idrutina, nombre, descripcion,dificultad,musculotrabajado)
-	            VALUES ( %(idrutina)s, %(nombre)s, %(descripcion)s, %(dificultad)s,%(musculotrabajado)s);
+                INSERT INTO mydb.ejercicios(idrutina, nombre, descripcion,dificultad,musculotrabajado,imagen)
+	            VALUES ( %(idrutina)s, %(nombre)s, %(descripcion)s, %(dificultad)s,%(musculotrabajado)s,%(imagen)s);
             """, data)
         self.conn.commit()
         

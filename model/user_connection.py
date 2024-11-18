@@ -58,5 +58,11 @@ class UserConnection:
         self.conn.commit()
 
     
-    
+    def get_by_email(self, email):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+            SELECT * FROM mydb.usuario WHERE email = %s
+            """, (email,))
+            return cur.fetchone()
+
 

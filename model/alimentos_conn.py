@@ -22,8 +22,8 @@ class AlimentosConnection:
     def write(self, data):
         with self.conn.cursor() as cur:
             cur.execute("""
-                INSERT INTO mydb.alimentos (id_usuario, nombre, marca, calorias, proteina, carbohidratos, grasa, "tamañoporcion", tipomedida)
-                VALUES (%(id_usuario)s, %(nombre)s, %(marca)s, %(calorias)s, %(proteina)s, %(carbohidratos)s, %(grasa)s, %(tamañoporcion)s, %(tipomedida)s);
+                INSERT INTO mydb.alimentos (id_usuario, nombre, marca, calorias, proteina, carbohidratos, grasa, "tamañoporcion", tipomedida,imagen)
+                VALUES (%(id_usuario)s, %(nombre)s, %(marca)s, %(calorias)s, %(proteina)s, %(carbohidratos)s, %(grasa)s, %(tamañoporcion)s, %(tipomedida)s,%(imagen)s);
             """, data)
         self.conn.commit()
 

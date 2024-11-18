@@ -8,3 +8,4 @@ class EjercicioSchema(BaseModel):
     descripcion : str
     dificultad: str
     musculotrabajado: str
+    imagen: Optional[str]  # Cambiado a str para la URL

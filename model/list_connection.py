@@ -31,9 +31,7 @@ class ListaConnection:
         with self.conn.cursor() as cur:
             cur.execute("""
                 UPDATE mydb.lista_alimentos
-                SET idcomida=%(idcomida)s, idalimento=%(idalimento)s, nombre=%(nombre)s,
-                marca=%(marca)s,calorias=%(calorias)s,proteina=%(proteina)s,
-                carbohidratos=%(carbohidratos)s,grasa=%(grasa)s, "tamañoporcion"=%(tamañoporcion)s, tipomedida=%(tipomedida)s, categoriacomida=%(categoriacomida)s   
+                SET "tamañoporcion"=%(tamañoporcion)s, categoriacomida=%(categoriacomida)s   
                 WHERE idlistaalimentos=%(idlistaalimentos)s
             """,data)
         self.conn.commit()

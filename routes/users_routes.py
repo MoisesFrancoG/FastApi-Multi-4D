@@ -1,12 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,Depends
 from model.user_connection import UserConnection
 from schema.user_schema import UserSchema
-
+from routes.auth_routes import get_current_user
 router = APIRouter()
 user_conn = UserConnection()
 
 @router.get("/users")
-def get_users():
+def get_users(#current_user: dict = Depends(get_current_user)
+              ):
     items = []
     for data in user_conn.read_all():
         dictionary = {
@@ -15,7 +16,7 @@ def get_users():
             "password": data[2],
             "email": data[3],
             "edad": data[4],
-            "peso": data[5],
+            "peso": data[5],    
             "estatura": data[6],
             "sexo": data[7],
             "indiceActividad": data[8]
