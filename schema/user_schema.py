@@ -10,5 +10,5 @@ class UserSchema(BaseModel):
     peso: int
     estatura: int
     sexo: str
-    indiceactividad: int 
+    indiceactividad: float
     
