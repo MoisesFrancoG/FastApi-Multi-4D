@@ -26,7 +26,7 @@ class UserRegister(BaseModel):
     peso: int
     estatura: int
     sexo: str
-    indiceactividad: int
+    indiceactividad: float
 
 # Función para crear un token de acceso
 def create_access_token(data: dict, expires_delta: timedelta = None):

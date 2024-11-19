@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from routes.users_routes import router as users_router
 from routes.alimentos_routes import router as alimentos_router
@@ -10,6 +11,15 @@ from routes.lista_routes import router as list_router
 from routes.auth_routes import router as auth_router
 
 app = FastAPI()
+
+# Esto es crucial para habilitar CORS correctamente
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Específica dominios en producción
+    allow_credentials=True,
+    allow_methods=["*"],  # O especifica métodos: ['GET', 'POST']
+    allow_headers=["*"],
+)
 
 # Montar la carpeta `uploads` para servir archivos estáticos
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
