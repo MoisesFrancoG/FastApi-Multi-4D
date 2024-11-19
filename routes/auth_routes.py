@@ -35,7 +35,6 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
-# Endpoint para el registro de usuario
 @router.post("/register")
 def register_user(user: UserRegister):
     existing_user = user_conn.get_by_email(user.email)
@@ -44,7 +43,19 @@ def register_user(user: UserRegister):
 
     user_data = user.dict()
     user_conn.write(user_data)
-    return {"message": "User registered successfully"}
+    
+    # Recuperar el id del usuario recién registrado usando el correo electrónico
+    new_user = user_conn.get_by_email(user.email)
+    if not new_user:
+        raise HTTPException(status_code=500, detail="Error retrieving user data after registration")
+
+    user_id = new_user[0]  # Asumiendo que el `idusuario` es el primer elemento en la tupla
+
+    # Crear el token JWT con el id del usuario
+    access_token = create_access_token(data={"sub": user.email, "user_id": user_id}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+
+    return {"access_token": access_token, "token_type": "bearer", "user_id": user_id}
+
 
 # Endpoint para el inicio de sesión
 @router.post("/login")
