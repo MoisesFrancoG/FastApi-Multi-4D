@@ -26,7 +26,7 @@ class UserRegister(BaseModel):
     peso: int
     estatura: int
     sexo: str
-    indiceactividad: float
+    indiceactividad: int
 
 # Función para crear un token de acceso
 def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -35,6 +35,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
+# Endpoint para el registro de usuario
 @router.post("/register")
 def register_user(user: UserRegister):
     existing_user = user_conn.get_by_email(user.email)
@@ -43,19 +44,7 @@ def register_user(user: UserRegister):
 
     user_data = user.dict()
     user_conn.write(user_data)
-    
-    # Recuperar el id del usuario recién registrado usando el correo electrónico
-    new_user = user_conn.get_by_email(user.email)
-    if not new_user:
-        raise HTTPException(status_code=500, detail="Error retrieving user data after registration")
-
-    user_id = new_user[0]  # Asumiendo que el `idusuario` es el primer elemento en la tupla
-
-    # Crear el token JWT con el id del usuario
-    access_token = create_access_token(data={"sub": user.email, "user_id": user_id}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-
-    return {"access_token": access_token, "token_type": "bearer", "user_id": user_id}
-
+    return {"message": "User registered successfully"}
 
 # Endpoint para el inicio de sesión
 @router.post("/login")
@@ -64,8 +53,13 @@ def login_user(user: UserLogin):
     if not db_user or db_user[2] != user.password:  # Verifica directamente la contraseña
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    access_token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-    return {"access_token": access_token, "token_type": "bearer"}
+    # Extraer el id del usuario de la respuesta de la base de datos
+    user_id = db_user[0]  # Asumiendo que el `idusuario` es el primer elemento en la tupla
+
+    # Crear el token JWT que incluye el id del usuario
+    access_token = create_access_token(data={"sub": user.email, "user_id": user_id}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+
+    return {"access_token": access_token, "token_type": "bearer", "user_id": user_id}
 
 # Dependencia para proteger rutas
 def get_current_user(token: str):
