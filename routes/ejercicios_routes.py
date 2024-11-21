@@ -68,7 +68,10 @@ async def insert_exercise(
         "imagen": image_url
     }
     ejercicio_conn.write(data)
-    return {"message": "Ejercicio added with image URL"}
+    return {
+        "message": "Ejercicio added with image URL",
+        "data" : data
+        }
 
 
 @router.put("/ejercicio/{id}")

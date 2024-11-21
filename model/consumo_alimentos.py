@@ -4,7 +4,7 @@ class ConsumoConnec:
     def __init__(self):
         self.conn = None
         try:
-            self.conn = psycopg.connect("dbname=Multi user=Moi password=12345678 host=localhost port=5432")
+            self.conn = psycopg.connect("dbname=Multi user=miusuario password=miclave host=98.85.116.206 port=5432")
         except psycopg.OperationalError as err:
             print("Connection failed:", err)
             self.conn = None

@@ -19,7 +19,7 @@ def get_alimentos():
             "proteina": data[5],
             "carbohidratos": data[6],
             "grasa": data[7],
-            "porcion": data[8],
+            "tamañoporcion": data[8],
             "tipomedida": data[9]
         }
         items.append(dictionary)
@@ -38,7 +38,7 @@ def get_alimento(id: int):
             "proteina": data[5],
             "carbohidratos": data[6],
             "grasa": data[7],
-            "porcion": data[8],
+            "tamañoporcion": data[8],
             "tipomedida": data[9]
         }
     else:
@@ -46,18 +46,13 @@ def get_alimento(id: int):
 
 @router.post("/alimentos")
 def insert_alimento(alimento_data: AlimentosSchema):
-    # Preparar el diccionario de dat
     data = alimento_data.dict()
-
-    # Llamar al método para insertar los datos en la base de datos
     alimentos_conn.write(data)
 
-    # Retornar mensaje con éxito
     return {
         "message": "Alimento added successfully",
-        "data": data  # Devuelve los datos insertados para referencia
+        "data": data
     }
-
 
 @router.put("/alimentos/{id}")
 def update_alimento(alimento_data: AlimentosSchema, id: int):
