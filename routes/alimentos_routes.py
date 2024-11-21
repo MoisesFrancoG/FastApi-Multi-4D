@@ -5,10 +5,6 @@ import os
 
 router = APIRouter()
 alimentos_conn = AlimentosConnection()
-UPLOAD_DIR = "uploads/"  # Directorio donde se guardarán las imágenes
-
-# Asegúrate de que el directorio existe
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.get("/alimentos")
 def get_alimentos():
@@ -23,9 +19,8 @@ def get_alimentos():
             "proteina": data[5],
             "carbohidratos": data[6],
             "grasa": data[7],
-            "tamañoporcion": data[8],
-            "tipomedida": data[9],
-            "imagen": data[10]
+            "porcion": data[8],
+            "tipomedida": data[9]
         }
         items.append(dictionary)
     return items
@@ -43,48 +38,26 @@ def get_alimento(id: int):
             "proteina": data[5],
             "carbohidratos": data[6],
             "grasa": data[7],
-            "tamañoporcion": data[8],
-            "tipomedida": data[9],
-            "imagen": data[10]
+            "porcion": data[8],
+            "tipomedida": data[9]
         }
     else:
         return {"error": "Alimento not found"}
 
 @router.post("/alimentos")
-async def insert_alimento(
-    id_usuario: int,
-    nombre: str,
-    calorias: int,
-    proteina: int,
-    carbohidratos: int,
-    grasa: int,
-    tamañoporcion: int,
-    tipomedida: str,
-    imagen: UploadFile = File(None),
-    marca: str = None
-):
-    image_url = None
-    if imagen:
-        image_filename = f"{UPLOAD_DIR}{imagen.filename}"
-        with open(image_filename, "wb") as image_file:
-            image_file.write(await imagen.read())
-        # URL de acceso a la imagen (ajustar según la URL base del servidor)
-        image_url = f"/{image_filename}"
+def insert_alimento(alimento_data: AlimentosSchema):
+    # Preparar el diccionario de dat
+    data = alimento_data.dict()
 
-    data = {
-        "id_usuario": id_usuario,
-        "nombre": nombre,
-        "marca": marca,
-        "calorias": calorias,
-        "proteina": proteina,
-        "carbohidratos": carbohidratos,
-        "grasa": grasa,
-        "tamañoporcion": tamañoporcion,
-        "tipomedida": tipomedida,
-        "imagen": image_url
-    }
+    # Llamar al método para insertar los datos en la base de datos
     alimentos_conn.write(data)
-    return {"message": "Alimento added with image URL"}
+
+    # Retornar mensaje con éxito
+    return {
+        "message": "Alimento added successfully",
+        "data": data  # Devuelve los datos insertados para referencia
+    }
+
 
 @router.put("/alimentos/{id}")
 def update_alimento(alimento_data: AlimentosSchema, id: int):

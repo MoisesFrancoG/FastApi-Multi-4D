@@ -10,7 +10,7 @@ class AlimentosSchema(BaseModel):
     proteina: int
     carbohidratos: int
     grasa: int
-    tamañoporcion: int
+    porcion: int
     tipomedida: str
-    imagen : Optional[str]
+    
     
