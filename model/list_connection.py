@@ -4,7 +4,7 @@ class ListaConnection:
     def __init__(self):
         self.conn = None
         try:
-            self.conn = psycopg.connect("dbname=Multi user=Moi password=12345678 host=localhost port=5432")
+            self.conn = psycopg.connect("dbname=Multi user=miusuario password=miclave host=98.85.116.206 port=5432")
         except psycopg.OperationalError as err:
             print("Connection failed:", err)
             self.conn = None
@@ -22,8 +22,8 @@ class ListaConnection:
     def write(self, data):
         with self.conn.cursor() as cur:
             cur.execute("""
-                INSERT INTO mydb.lista_alimentos(idcomida, idalimento, nombre,marca,calorias,proteina,carbohidratos,grasa,"tamañoporcion",tipomedida,categoriacomida)
-	            VALUES ( %(idcomida)s,%(idalimento)s,%(nombre)s,%(marca)s,%(calorias)s, %(proteina)s, %(carbohidratos)s, %(grasa)s,%(tamañoporcion)s,%(tipomedida)s,%(categoriacomida)s);
+                INSERT INTO mydb.lista_alimentos(idcomida, idalimento, nombre,marca,calorias,proteina,carbohidratos,grasa,porcion,tipomedida,categoriacomida)
+	            VALUES ( %(idcomida)s,%(idalimento)s,%(nombre)s,%(marca)s,%(calorias)s, %(proteina)s, %(carbohidratos)s, %(grasa)s,%(porcion)s,%(tipomedida)s,%(categoriacomida)s);
             """, data)
         self.conn.commit()
         
@@ -31,7 +31,7 @@ class ListaConnection:
         with self.conn.cursor() as cur:
             cur.execute("""
                 UPDATE mydb.lista_alimentos
-                SET "tamañoporcion"=%(tamañoporcion)s, categoriacomida=%(categoriacomida)s   
+                SET porcion=%(porcion)s, categoriacomida=%(categoriacomida)s   
                 WHERE idlistaalimentos=%(idlistaalimentos)s
             """,data)
         self.conn.commit()

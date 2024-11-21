@@ -7,10 +7,10 @@ class ListSchema(BaseModel):
     idalimento : int
     nombre: str
     marca: Optional[str]
-    calorias: int
-    proteina: int
-    carbohidratos: int
-    grasa : int
-    tamañoporcion: int
+    calorias: float
+    proteina: float
+    carbohidratos: float
+    grasa : float
+    porcion: int
     tipomedida :str
     categoriacomida: str
