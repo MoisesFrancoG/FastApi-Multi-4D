@@ -19,7 +19,26 @@ def get_alimentos():
             "proteina": data[5],
             "carbohidratos": data[6],
             "grasa": data[7],
-            "tamañoporcion": data[8],
+            "porcion": data[8],
+            "tipomedida": data[9]
+        }
+        items.append(dictionary)
+    return items
+
+@router.get("/usuario/{id}")
+def getAll(id: int):
+    items = []
+    for data in alimentos_conn.readAllbyId(id):
+        dictionary = {
+            "idalimentos": data[0],
+            "id_usuario": data[1],
+            "nombre": data[2],
+            "marca": data[3],
+            "calorias": data[4],
+            "proteina": data[5],
+            "carbohidratos": data[6],
+            "grasa": data[7],
+            "porcion": data[8],
             "tipomedida": data[9]
         }
         items.append(dictionary)
@@ -38,7 +57,7 @@ def get_alimento(id: int):
             "proteina": data[5],
             "carbohidratos": data[6],
             "grasa": data[7],
-            "tamañoporcion": data[8],
+            "porcion": data[8],
             "tipomedida": data[9]
         }
     else:

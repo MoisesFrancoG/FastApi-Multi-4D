@@ -32,8 +32,12 @@ def get_consumo(id: int):
 @router.post("/consumo")
 def insert_consumo(consumo_data: ConsumoSchema):
     data = consumo_data.dict()
-    consumos_conn.write(data)
-    return {"message: Consumo alimentos addded successfully"}
+    idconsumo = consumos_conn.write(data)
+    return {
+        "message": "Consumo alimentos added successfully",
+        "idconsumo": idconsumo
+    }
+
 
 @router.put("/consumo/{id}")
 def update_consumo(consumo_data: ConsumoSchema, id: int):

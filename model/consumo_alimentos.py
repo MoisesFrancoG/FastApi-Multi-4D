@@ -23,9 +23,12 @@ class ConsumoConnec:
         with self.conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO mydb.consumo_alimentos (id_usuario, fecha)
-                VALUES (%(id_usuario)s, %(fecha)s);
+                VALUES (%(id_usuario)s, %(fecha)s)
+                RETURNING idconsumo;
             """, data)
+            idconsumo = cur.fetchone()[0]
         self.conn.commit()
+        return idconsumo
     
     def update(self, data):
         with self.conn.cursor() as cur:
