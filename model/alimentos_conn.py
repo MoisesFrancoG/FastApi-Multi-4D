@@ -13,6 +13,11 @@ class AlimentosConnection:
         with self.conn.cursor() as cur:
             cur.execute("SELECT * FROM mydb.alimentos;")
             return cur.fetchall()
+        
+    def readAllbyId(self,id): 
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT * FROM mydb.alimentos WHERE id_usuario = %s;",(id,))
+            return cur.fetchall()
 
     def read_one(self, id):
         with self.conn.cursor() as cur:
