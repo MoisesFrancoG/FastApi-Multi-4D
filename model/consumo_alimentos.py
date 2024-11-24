@@ -1,5 +1,5 @@
 import psycopg
-
+from datetime import date
 class ConsumoConnec:
     def __init__(self):
         self.conn = None
@@ -9,6 +9,40 @@ class ConsumoConnec:
             print("Connection failed:", err)
             self.conn = None
             
+    # Añadir este método
+    def get_all_by_user(self, id_usuario):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                SELECT * FROM mydb.consumo_alimentos 
+                WHERE id_usuario = %s 
+                ORDER BY fecha DESC;
+            """, (id_usuario,))
+            return cur.fetchall()
+    
+    # Mantener los métodos existentes y añadir este nuevo método
+    def get_or_create_daily_consumo(self, id_usuario):
+        fecha_hoy = date.today().isoformat()  # Fecha actual en formato YYYY-MM-DD
+        with self.conn.cursor() as cur:
+            # Verificar si ya existe un consumo para este usuario y la fecha actual
+            cur.execute("""
+                SELECT idconsumo FROM mydb.consumo_alimentos 
+                WHERE id_usuario = %s AND fecha = %s;
+            """, (id_usuario, fecha_hoy))
+            result = cur.fetchone()
+            if result:
+                # Si ya existe, devolver el idconsumo
+                return result[0]
+            else:
+                # Si no existe, crearlo
+                cur.execute("""
+                    INSERT INTO mydb.consumo_alimentos (id_usuario, fecha) 
+                    VALUES (%s, %s)
+                    RETURNING idconsumo;
+                """, (id_usuario, fecha_hoy))
+                idconsumo = cur.fetchone()[0]
+                self.conn.commit()
+                return idconsumo        
+    
     def read_all(self):
         with self.conn.cursor() as cur:
             cur.execute("SELECT * FROM mydb.consumo_alimentos;")
