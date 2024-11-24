@@ -57,7 +57,7 @@ async def insert_exercise(
         with open(image_filename, "wb") as image_file:
             image_file.write(await imagen.read())
         # URL de acceso a la imagen (puedes ajustar esto según la URL base de tu servidor)
-        image_url = f"/{image_filename}"
+        image_url = f"http://127.0.0.1:8000/{image_filename}"
 
     data = {
         "idrutina": idrutina,
