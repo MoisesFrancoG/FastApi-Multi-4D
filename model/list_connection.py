@@ -16,7 +16,7 @@ class ListaConnection:
         
     def read_one(self, id):
         with self.conn.cursor() as cur:
-            cur.execute("SELECT * FROM mydb.lista_alimentos WHERE idlistaalimentos = %s;", (id,))
+            cur.execute("SELECT * FROM mydb.lista_alimentos WHERE idcomida = %s;", (id,))
             return cur.fetchall()
         
     def write(self, data):
