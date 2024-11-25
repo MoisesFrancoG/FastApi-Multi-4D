@@ -51,38 +51,37 @@ def get_lista(id: int):
 
 @router.post("/lista")
 def insert_lista(lista_data: ListSchema):
-    # Extraer el `idalimento` y la `porcion` proporcionada
+    
     idalimento = lista_data.idalimento
     porcion = lista_data.porcion
 
-    # Obtener los datos del alimento desde la tabla `alimentos`
+    
     alimento_data = alimentos_conn.read_one(idalimento)
     if not alimento_data:
         return {"error": "Alimento no encontrado"}
 
-    # Calcular los valores de macronutrientes basados en la nueva porción
-    factor = porcion / alimento_data[8]  # alimento_data[8] es la porción base
+    
+    factor = porcion / alimento_data[8]  
     calorias = alimento_data[4] * factor
     proteina = alimento_data[5] * factor
     carbohidratos = alimento_data[6] * factor
     grasa = alimento_data[7] * factor
 
-    # Preparar el diccionario para insertar en `lista_alimentos`
     data = {
         "idcomida": lista_data.idcomida,
         "idalimento": idalimento,
-        "nombre": alimento_data[2],  # Nombre del alimento
-        "marca": alimento_data[3],  # Marca del alimento (opcional)
+        "nombre": alimento_data[2],  
+        "marca": alimento_data[3],  
         "calorias": calorias,
         "proteina": proteina,
         "carbohidratos": carbohidratos,
         "grasa": grasa,
         "porcion": porcion,
-        "tipomedida": alimento_data[9],  # Tipo de medida
-        "categoriacomida": lista_data.categoriacomida,  # Categoría de comida
+        "tipomedida": alimento_data[9],  
+        "categoriacomida": lista_data.categoriacomida,  
     }
 
-    # Insertar los datos calculados en `lista_alimentos`
+    
     list_conn.write(data)
 
     return {"message": "Lista added successfully", "data": data}
@@ -91,11 +90,10 @@ def insert_lista(lista_data: ListSchema):
 @router.put("/lista/{id}")
 def update_lista(id: int, lista_data: ListSchema):
     try:
-        # Convertir los datos en un diccionario
         data = lista_data.dict()
-        data['idlistaalimentos'] = id  # Agregar el ID de la lista que se va a actualizar
+        data['idlistaalimentos'] = id  
 
-        # Actualizar los datos en la base de datos
+        
         list_conn.update(data)
 
         return {"message": "Lista updated successfully", "data": data}

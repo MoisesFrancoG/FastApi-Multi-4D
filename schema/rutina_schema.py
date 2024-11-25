@@ -7,3 +7,4 @@ class RutinaSchema(BaseModel):
     tiempo : str
     fecha : str 
     nombre : str
+    idusuario: int
