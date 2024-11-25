@@ -19,7 +19,7 @@ def getListas():
             "proteina":data[6],
             "carbohidratos":data[7],
             "grasa": data[8],
-            "tamañoporcion": data[9],
+            "porcion": data[9],
             "tipomedida": data[10],
             "categoriacomida": data[11]
         }
@@ -41,7 +41,7 @@ def get_lista(id: int):
             "proteina":data[6],
             "carbohidratos":data[7],
             "grasa": data[8],
-            "tamañoporcion": data[9],
+            "porcion": data[9],
             "tipomedida": data[10],
             "categoriacomida": data[11]
         }
