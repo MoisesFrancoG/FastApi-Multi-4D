@@ -20,7 +20,8 @@ def get_alimentos():
             "carbohidratos": data[6],
             "grasa": data[7],
             "porcion": data[8],
-            "tipomedida": data[9]
+            "tipomedida": data[9],
+            "categoria": data[10]
         }
         items.append(dictionary)
     return items
@@ -39,7 +40,8 @@ def getAll(id: int):
             "carbohidratos": data[6],
             "grasa": data[7],
             "porcion": data[8],
-            "tipomedida": data[9]
+            "tipomedida": data[9],
+            "categoria": data[10]
         }
         items.append(dictionary)
     return items
@@ -58,7 +60,8 @@ def get_alimento(id: int):
             "carbohidratos": data[6],
             "grasa": data[7],
             "porcion": data[8],
-            "tipomedida": data[9]
+            "tipomedida": data[9],
+            "categoria": data[10]
         }
     else:
         return {"error": "Alimento not found"}
