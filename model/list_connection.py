@@ -27,14 +27,40 @@ class ListaConnection:
             """, data)
         self.conn.commit()
         
-    def update(self,data):
+    def update(self, data):
         with self.conn.cursor() as cur:
+            # Obtener los datos del alimento relacionado
+            cur.execute("SELECT calorias, proteina, carbohidratos, grasa, porcion FROM mydb.alimentos WHERE idalimentos = %s;", (data['idalimento'],))
+            alimento = cur.fetchone()
+
+            if not alimento:
+                raise ValueError(f"Alimento con id {data['idalimento']} no encontrado.")
+
+            # Calcular los valores ajustados a la nueva porción
+            base_porcion = alimento[4]  # Porción base del alimento
+            porcion_factor = data['porcion'] / base_porcion
+
+            data['calorias'] = alimento[0] * porcion_factor
+            data['proteina'] = alimento[1] * porcion_factor
+            data['carbohidratos'] = alimento[2] * porcion_factor
+            data['grasa'] = alimento[3] * porcion_factor    
+
+            # Actualizar la lista de alimentos
             cur.execute("""
                 UPDATE mydb.lista_alimentos
-                SET porcion=%(porcion)s, categoriacomida=%(categoriacomida)s   
-                WHERE idlistaalimentos=%(idlistaalimentos)s
-            """,data)
-        self.conn.commit()
+                SET porcion = %(porcion)s, 
+                    categoriacomida = %(categoriacomida)s, 
+                    calorias = %(calorias)s, 
+                    proteina = %(proteina)s,
+                    carbohidratos = %(carbohidratos)s, 
+                    grasa = %(grasa)s
+                WHERE idlistaalimentos = %(idlistaalimentos)s;
+            """, data)
+
+            # Confirmar los cambios
+            self.conn.commit()
+
+
         
     def delete(self, id):
         with self.conn.cursor() as cur:
