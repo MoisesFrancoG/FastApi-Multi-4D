@@ -11,15 +11,15 @@ def get_users(#current_user: dict = Depends(get_current_user)
     items = []
     for data in user_conn.read_all():
         dictionary = {
-            "idUsuario": data[0],
-            "Nombre": data[1],
-            "password": data[2],
+            "idusuario": data[0],
+            "nombre": data[1],
+            "userpassword": data[2],
             "email": data[3],
             "edad": data[4],
             "peso": data[5],    
             "estatura": data[6],
             "sexo": data[7],
-            "indiceActividad": data[8]
+            "indiceactividad": data[8]
         }
         items.append(dictionary)
     return items
@@ -29,15 +29,15 @@ def get_user(id: int):
     data = user_conn.read_one(id)
     if data:
         return {
-            "idUsuario": data[0],
-            "Nombre": data[1],
-            "password": data[2],
+            "idusuario": data[0],
+            "nombre": data[1],
+            "userpassword": data[2],
             "email": data[3],
             "edad": data[4],
             "peso": data[5],
             "estatura": data[6],
             "sexo": data[7],
-            "indiceActividad": data[8]
+            "indiceactividad": data[8]
         }
     else:
         return {"error": "User not found"}
