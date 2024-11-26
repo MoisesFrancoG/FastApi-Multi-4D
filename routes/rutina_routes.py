@@ -14,7 +14,9 @@ def get_Rutinas():
             "idrutina": data[0],
             "progresion": data[1],
             "tiempo": data[2],
-            "fecha": data[3]
+            "nombre": data[3],
+            "idusuario": data[4]
+            ##"idusuario": data[5]
         }
         items.append(dictionary)
     return items
@@ -28,7 +30,9 @@ def get_rutina(id: int):
             "idrutina": data[0],
             "progresion": data[1],
             "tiempo": data[2],
-            "fecha": data[3] 
+            "nombre": data[3],
+            "idusuario": data[4]
+            ##"idusuario": data[5]
         }
     else:
         return {"error: Rutina not found"}

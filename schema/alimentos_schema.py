@@ -6,10 +6,10 @@ class AlimentosSchema(BaseModel):
     id_usuario: int
     nombre: str
     marca: Optional[str] = None
-    calorias: float
-    proteina: float
-    carbohidratos: float
-    grasa: float
+    calorias: int
+    proteina: int
+    carbohidratos: int
+    grasa: int
     porcion: int
     tipomedida: str
     categoria: str
